@@ -1,0 +1,17 @@
+table tr td {
+    width: 50px;
+    height: 50px;
+    border: solid #000 1px;
+  }
+  
+  table tr:nth-child(odd) td:nth-child(even) {
+    background: #21364B;
+  }
+  table tr:nth-child(even) td:nth-child(odd) {
+    background: #21364B;
+  }
+
+  .chess-piece-icon{
+    width: 100%;
+    cursor: pointer;
+  }
