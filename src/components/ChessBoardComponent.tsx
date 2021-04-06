@@ -1,10 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import GridPosition from "../application/GridPosition";
-import ChessGameConfig from "../domain/ChessGameConfig";
-import ChessPiecePosition from "../domain/ChessPiecePosition";
 import '../ChessBoard.css';
-import ChessPiece from "../domain/ChessPiece";
-import ChessPieceUtils from "../application/ChessPieceUtils";
 import ChessPieceViewModel from "../application/ChessPieceViewModel";
 import ChessPieceComponent from "./ChessPieceComponent";
 import { Guid } from "guid-typescript";

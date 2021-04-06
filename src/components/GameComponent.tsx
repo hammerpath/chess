@@ -1,5 +1,5 @@
 import { Guid } from "guid-typescript";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ChessPieceUtils from "../application/ChessPieceUtils";
 import ChessPieceViewModel from "../application/ChessPieceViewModel";
 import Square from "../application/Square";

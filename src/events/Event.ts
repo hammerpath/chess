@@ -6,7 +6,6 @@ export interface Disposable {
     dispose(): void;
 }
 
-/** passes through events as they happen. You will not get events from before you start listening */
 export class ChessGameEvent<T> {
     private listeners: Listener<T>[] = [];
     private listenersOncer: Listener<T>[] = [];
@@ -28,10 +27,10 @@ export class ChessGameEvent<T> {
     }
 
     emit = (event: T) => {
-        /** Update any general listeners */
+        //Update any general listeners 
         this.listeners.forEach((listener) => listener(event));
 
-        /** Clear the `once` queue */
+        //Clear the `once` queue 
         if (this.listenersOncer.length > 0) {
             const toCall = this.listenersOncer;
             this.listenersOncer = [];

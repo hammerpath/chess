@@ -2,21 +2,23 @@ import { Guid } from "guid-typescript";
 import ChessBoard from "./ChessBoard";
 import ChessGameConfig from "./ChessGameConfig";
 import ChessPiecePosition from "./ChessPiecePosition";
-import {ChessGameEvent} from "../events/Event";
+import { ChessGameEvent } from "../events/Event";
 import ChessPiece from "./ChessPiece";
 import { Color } from "./enums/Color";
 import { ChessPieceType } from "./enums/ChessPieceType";
+import Position from "./Position";
+import GridUtils from "./utils/GridUtils";
 
 export default class ChessGame {
-    get Id() : Guid{
+    get Id(): Guid {
         return this.id;
     }
 
-    get ChessPiecePositions() : ChessPiecePosition[]{
+    get ChessPiecePositions(): ChessPiecePosition[] {
         return this._chessPiecePositions;
     }
 
-    get ChessBoard() : ChessBoard{
+    get ChessBoard(): ChessBoard {
         return this._chessBoard;
     }
 
@@ -24,29 +26,29 @@ export default class ChessGame {
         return this._onChessPiecesPlaced;
     }
 
-    get OnChessPieceMoved() : ChessGameEvent<ChessPiecePosition[]>{
+    get OnChessPieceMoved(): ChessGameEvent<ChessPiecePosition[]> {
         return this._onChessPieceMoved;
     }
 
-    constructor(private id : Guid, config : ChessGameConfig, chessPieces: ChessPiece[], chessPiecePositions?: ChessPiecePosition[]){
+    constructor(private id: Guid, config: ChessGameConfig, private chessPieces: ChessPiece[], chessPiecePositions?: ChessPiecePosition[]) {
         this._onChessPiecesPlaced = new ChessGameEvent<ChessPiecePosition[]>();
         this._onChessPieceMoved = new ChessGameEvent<ChessPiecePosition[]>();
 
         this._chessBoard = new ChessBoard(Guid.create(), config.Width, config.Depth);
 
         //init pieces if they aren't supplied
-        if(!chessPiecePositions || (chessPiecePositions && chessPiecePositions.length === 0)){
-            this._chessPiecePositions = this.initChessPieces(chessPieces);   
-        }else{
+        if (!chessPiecePositions || (chessPiecePositions && chessPiecePositions.length === 0)) {
+            this._chessPiecePositions = this.initChessPieces(chessPieces);
+        } else {
             this._chessPiecePositions = chessPiecePositions;
         }
     }
 
-    private initChessPieces = (chessPieces : ChessPiece[]) : ChessPiecePosition[] => {
+    private initChessPieces = (chessPieces: ChessPiece[]): ChessPiecePosition[] => {
         return this.placeChessPieces(chessPieces);
     }
 
-    private placeChessPieces = (chessPieces : ChessPiece[]) : ChessPiecePosition[] => {
+    private placeChessPieces = (chessPieces: ChessPiece[]): ChessPiecePosition[] => {
         let chessPiecePositions = new Array<ChessPiecePosition>();
 
         let chessPiecesCopy = [...chessPieces];
@@ -90,9 +92,9 @@ export default class ChessGame {
 
         return chessPiecePositions;
     }
-    
 
-    moveChessPiece = (chessPieceId: Guid, x: number, y: number) : ChessPiecePosition => {
+
+    moveChessPiece = (chessPieceId: Guid, x: number, y: number): void => {
         const chessPiecePosition = new ChessPiecePosition(chessPieceId, x, y);
 
         //todo catch logic
@@ -103,12 +105,10 @@ export default class ChessGame {
         this._chessPiecePositions.push(chessPiecePosition);
         //emits moved event
         this._onChessPieceMoved.emit(this._chessPiecePositions);
-        
-        return chessPiecePosition;
     }
 
     private _chessPiecePositions: ChessPiecePosition[];
     private _chessBoard: ChessBoard;
-    private _onChessPieceMoved : ChessGameEvent<ChessPiecePosition[]>;
-    private _onChessPiecesPlaced : ChessGameEvent<ChessPiecePosition[]>;
+    private _onChessPieceMoved: ChessGameEvent<ChessPiecePosition[]>;
+    private _onChessPiecesPlaced: ChessGameEvent<ChessPiecePosition[]>;
 }
