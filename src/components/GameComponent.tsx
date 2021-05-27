@@ -21,7 +21,6 @@ function GameComponent(props: IGameComponentProps) {
     const [chessPiecePositions, setChessPiecePositions] = useState<ChessPieceViewModel[]>([]);
     const [selectedChessPiece, setSelectedChessPiece] = useState<ChessPiecePosition>();
     const [chessGame, setChessGame] = useState<ChessGame>();
-    //const [chessPieces, setChessPieces] = useState<ChessPiece[]>([]);
 
     useEffect(() => {
         initGame();
@@ -49,11 +48,11 @@ function GameComponent(props: IGameComponentProps) {
             game = createNewChessGame(Guid.create(), pieces);
         }
 
+        //domain event for when a piece has moved
         game.OnChessPieceMoved.on((chessPiecePositions: ChessPiecePosition[]) => {
             setChessPiecePositions(ChessPieceUtils.convertToChessPieceViewModels(pieces, chessPiecePositions));
         });
 
-        //setChessPieces(pieces);
         setChessPiecePositions(ChessPieceUtils.convertToChessPieceViewModels(pieces, game.ChessPiecePositions));
         setChessGame(game);
     }

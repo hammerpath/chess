@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/ts-nameof": "^4.2.1",
+    "ts-jest": "^27.0.1",
     "ts-nameof": "^5.0.0"
   }
 }
