@@ -1,6 +1,13 @@
+import { Guid } from "guid-typescript";
+import { Direction, IMatrix } from "../../utils/Matrix";
+import Position from "../Position";
 import IChessPiece, { ChessPieceColor } from "./IChessPiece";
 
-export default class Knight implements IChessPiece{
+export default class Knight implements IChessPiece {
+    get Id(): Guid {
+        return this.id;
+    }
+
     get StartWidth(): number {
         return this.startWidth;
     }
@@ -21,17 +28,36 @@ export default class Knight implements IChessPiece{
         return this.color;
     }
 
-    GetMoves(maxWidth: number, maxDepth: number): Array<Array<number>> {
-        let moves = Array<Array<number>>();
+    private get directions(): Array<Array<Direction>> {
+        return new Array<Array<Direction>>(
+            new Array<Direction>(
+                Direction.Up,
+                Direction.Up,
+                Direction.Right
+            )
+        );
+    }
 
+    GetMoves(matrix: IMatrix): Array<Position> {
+
+        let moves = new Array<Position>();
+
+        this.directions.forEach(directions => {
+            const [position] = matrix.getPositionsBasedOnDirection(this.CurrentWidth, this.CurrentDepth, directions).slice(-1);
+
+            if (position) {
+                moves.push(position);
+            }
+        });
 
         return moves;
     }
 
     constructor(
+        private id: Guid,
         private startWidth: number,
         private startDepth: number,
         private currentDepth: number,
         private currentWidth: number,
-        private color: ChessPieceColor) {}
+        private color: ChessPieceColor) { }
 }

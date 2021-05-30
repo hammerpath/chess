@@ -1,4 +1,6 @@
 import { Guid } from "guid-typescript";
+import { IMatrix } from "../../utils/Matrix";
+import Position from "../Position";
 
 export default interface IChessPiece {
     readonly Id: Guid;
@@ -8,7 +10,7 @@ export default interface IChessPiece {
     readonly CurrentWidth: number;
     readonly Color: ChessPieceColor;
 
-    GetMoves(maxWidth: number, maxDepth: number) : Array<Array<number>>;
+    GetMoves(matrix: IMatrix): Array<Position>;
 }
 
 export enum ChessPieceColor {

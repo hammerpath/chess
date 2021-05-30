@@ -1,6 +1,13 @@
+import { Guid } from "guid-typescript";
+import { IMatrix } from "../../utils/Matrix";
+import Position from "../Position";
 import IChessPiece, { ChessPieceColor } from "./IChessPiece";
 
-export default class Bishop implements IChessPiece{
+export default class Bishop implements IChessPiece {
+    get Id(): Guid {
+        return this.id;
+    }
+
     get StartWidth(): number {
         return this.startWidth;
     }
@@ -21,17 +28,15 @@ export default class Bishop implements IChessPiece{
         return this.color;
     }
 
-    GetMoves(maxWidth: number, maxDepth: number): Array<Array<number>> {
-        let moves = Array<Array<number>>();
-
-
-        return moves;
+    GetMoves(matrix: IMatrix): Array<Position> {
+        return matrix.getDiagonalLinesFromPoint(this.CurrentWidth, this.CurrentDepth);
     }
 
     constructor(
+        private id: Guid,
         private startWidth: number,
         private startDepth: number,
         private currentDepth: number,
         private currentWidth: number,
-        private color: ChessPieceColor) {}
+        private color: ChessPieceColor) { }
 }
