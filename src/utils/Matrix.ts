@@ -118,8 +118,8 @@ export class Matrix implements IMatrix {
 
     private positiveWidthEnumerations = (xEnumerations: number | undefined, x: number): number => !xEnumerations ? this.width - x : this.width + 1 - x - xEnumerations > 0 ? xEnumerations : 0;
     private positiveDepthEnumerations = (yEnumerations: number | undefined, y: number): number => !yEnumerations ? this.depth - y : this.depth + 1 - y - yEnumerations > 0 ? yEnumerations : 0;
-    private negativeWidthEnumerations = (xEnumerations: number | undefined, x: number): number => !xEnumerations ? x : x + 1 - xEnumerations;
-    private negativeDepthEnumerations = (yEnumerations: number | undefined, y: number): number => !yEnumerations ? y : y + 1 - yEnumerations;
+    private negativeWidthEnumerations = (xEnumerations: number | undefined, x: number): number => !xEnumerations ? x : x + 1 - xEnumerations > 0 ? xEnumerations : 0;
+    private negativeDepthEnumerations = (yEnumerations: number | undefined, y: number): number => !yEnumerations ? y : y + 1 - yEnumerations > 0 ? yEnumerations : 0;
 
     constructor(private width: number, private depth: number) { }
 }

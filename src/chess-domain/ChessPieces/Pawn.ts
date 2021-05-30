@@ -30,15 +30,31 @@ export default class Pawn implements IPawn {
     }
 
     GetMoves(matrix: IMatrix): Array<Position> {
-        if (this.StartY === this.Y) {
-            return matrix.getPositions(this.X, this.Y, Direction.Up, 2)
-                .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
-                .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
-        }
+        switch (this.color) {
+            case ChessPieceColor.White:
+                if (this.StartY === this.Y) {
+                    return matrix.getPositions(this.X, this.Y, Direction.Up, 2)
+                        .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
+                        .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
+                }
 
-        return matrix.getPositions(this.X, this.Y, Direction.Up, 1)
-            .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
-            .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
+                return matrix.getPositions(this.X, this.Y, Direction.Up, 1)
+                    .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
+                    .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
+
+            case ChessPieceColor.Black:
+                if (this.StartY === this.Y) {
+                    return matrix.getPositions(this.X, this.Y, Direction.Down, 2)
+                        .concat(matrix.getPositions(this.X, this.Y, Direction.DownRight, 1))
+                        .concat(matrix.getPositions(this.X, this.Y, Direction.DownLeft, 1));
+                }
+
+                return matrix.getPositions(this.X, this.Y, Direction.Down, 1)
+                    .concat(matrix.getPositions(this.X, this.Y, Direction.DownRight, 1))
+                    .concat(matrix.getPositions(this.X, this.Y, Direction.DownLeft, 1));
+            default:
+                throw new Error('Not implemented');
+        }
     }
 
     constructor(
