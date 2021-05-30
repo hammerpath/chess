@@ -5,7 +5,7 @@ import Queen from "./Queen";
 
 it('testing', () => {
     const matrix = new Matrix(1, 1);
-    const queen = new Queen(Guid.create(), 0, 0, 0, 0, ChessPieceColor.White);
+    const queen = new Queen(Guid.create(), 0, 0, ChessPieceColor.White);
 
     const moves = queen.GetMoves(matrix);
 

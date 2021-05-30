@@ -8,14 +8,6 @@ export default class Knight implements IChessPiece {
         return this.id;
     }
 
-    get StartWidth(): number {
-        return this.startWidth;
-    }
-
-    get StartDepth(): number {
-        return this.startDepth;
-    }
-
     get CurrentDepth(): number {
         return this.currentDepth;
     }
@@ -55,8 +47,6 @@ export default class Knight implements IChessPiece {
 
     constructor(
         private id: Guid,
-        private startWidth: number,
-        private startDepth: number,
         private currentDepth: number,
         private currentWidth: number,
         private color: ChessPieceColor) { }

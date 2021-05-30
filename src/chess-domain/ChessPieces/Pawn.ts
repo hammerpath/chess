@@ -1,9 +1,10 @@
 import { Guid } from "guid-typescript";
 import { Direction, IMatrix } from "../../utils/Matrix";
 import Position from "../Position";
-import IChessPiece, { ChessPieceColor } from "./IChessPiece";
+import { ChessPieceColor } from "./IChessPiece";
+import IPawn from "./IPawn";
 
-export default class Pawn implements IChessPiece {
+export default class Pawn implements IPawn {
     get Id(): Guid {
         return this.id;
     }

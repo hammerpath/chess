@@ -5,7 +5,7 @@ import Knight from "./Knight";
 
 it('can not move within 4 space matrix', () => {
     const matrix = new Matrix(1, 1);
-    const knight = new Knight(Guid.create(), 0, 0, 0, 0, ChessPieceColor.White);
+    const knight = new Knight(Guid.create(), 0, 0, ChessPieceColor.White);
 
     const moves = knight.GetMoves(matrix);
 
@@ -14,7 +14,7 @@ it('can not move within 4 space matrix', () => {
 
 it('can move one position with a height of 2', () => {
     const matrix = new Matrix(1, 2);
-    const knight = new Knight(Guid.create(), 0, 0, 0, 0, ChessPieceColor.White);
+    const knight = new Knight(Guid.create(), 0, 0, ChessPieceColor.White);
 
     const moves = knight.GetMoves(matrix);
 

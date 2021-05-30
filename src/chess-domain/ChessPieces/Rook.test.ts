@@ -5,7 +5,7 @@ import Rook from "./Rook";
 
 it('testing', () => {
     const matrix = new Matrix(1, 1);
-    const rook = new Rook(Guid.create(), 0, 0, 0, 0, ChessPieceColor.White);
+    const rook = new Rook(Guid.create(), 0, 0, ChessPieceColor.White);
 
     const moves = rook.GetMoves(matrix);
 

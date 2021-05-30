@@ -5,7 +5,7 @@ import King from "./King";
 
 it('can move to 3 positions with 4 space matrix', () => {
     const matrix = new Matrix(1, 1);
-    const king = new King(Guid.create(), 0, 0, 0, 0, ChessPieceColor.Black);
+    const king = new King(Guid.create(), 0, 0, ChessPieceColor.Black);
 
     const moves = king.GetMoves(matrix);
 
@@ -14,7 +14,7 @@ it('can move to 3 positions with 4 space matrix', () => {
 
 it('can move to 3 positions with 9 space matrix', () => {
     const matrix = new Matrix(2, 2);
-    const king = new King(Guid.create(), 0, 0, 0, 0, ChessPieceColor.Black);
+    const king = new King(Guid.create(), 0, 0, ChessPieceColor.Black);
 
     const moves = king.GetMoves(matrix);
 
