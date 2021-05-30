@@ -9,19 +9,19 @@ export default class Pawn implements IPawn {
         return this.id;
     }
 
-    get StartWidth(): number {
+    get StartX(): number {
         return this.startWidth;
     }
 
-    get StartDepth(): number {
+    get StartY(): number {
         return this.startDepth;
     }
 
-    get CurrentDepth(): number {
+    get Y(): number {
         return this.currentDepth;
     }
 
-    get CurrentWidth(): number {
+    get X(): number {
         return this.currentWidth;
     }
 
@@ -30,11 +30,15 @@ export default class Pawn implements IPawn {
     }
 
     GetMoves(matrix: IMatrix): Array<Position> {
-        if (this.StartDepth === this.CurrentDepth) {
-            return matrix.getPositions(this.CurrentWidth, this.CurrentDepth, Direction.Up, 2);
+        if (this.StartY === this.Y) {
+            return matrix.getPositions(this.X, this.Y, Direction.Up, 2)
+                .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
+                .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
         }
 
-        return matrix.getPositions(this.CurrentWidth, this.CurrentDepth, Direction.Up, 1);
+        return matrix.getPositions(this.X, this.Y, Direction.Up, 1)
+            .concat(matrix.getPositions(this.X, this.Y, Direction.UpRight, 1))
+            .concat(matrix.getPositions(this.X, this.Y, Direction.UpLeft, 1));
     }
 
     constructor(

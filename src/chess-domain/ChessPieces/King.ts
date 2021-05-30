@@ -8,11 +8,11 @@ export default class King implements IChessPiece {
         return this.id;
     }
 
-    get CurrentDepth(): number {
+    get Y(): number {
         return this.currentDepth;
     }
 
-    get CurrentWidth(): number {
+    get X(): number {
         return this.currentWidth;
     }
 
@@ -21,8 +21,8 @@ export default class King implements IChessPiece {
     }
 
     GetMoves(matrix: IMatrix): Array<Position> {
-        return matrix.getStraightLinesFromPoint(this.CurrentWidth, this.CurrentDepth, 1)
-            .concat(matrix.getDiagonalLinesFromPoint(this.CurrentWidth, this.CurrentDepth, 1));
+        return matrix.getStraightLinesFromPoint(this.X, this.Y, 1)
+            .concat(matrix.getDiagonalLinesFromPoint(this.X, this.Y, 1));
     }
 
     constructor(

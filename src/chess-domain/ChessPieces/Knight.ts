@@ -8,11 +8,11 @@ export default class Knight implements IChessPiece {
         return this.id;
     }
 
-    get CurrentDepth(): number {
+    get Y(): number {
         return this.currentDepth;
     }
 
-    get CurrentWidth(): number {
+    get X(): number {
         return this.currentWidth;
     }
 
@@ -35,7 +35,7 @@ export default class Knight implements IChessPiece {
         let moves = new Array<Position>();
 
         this.directions.forEach(directions => {
-            const [position] = matrix.getPositionsBasedOnDirection(this.CurrentWidth, this.CurrentDepth, directions).slice(-1);
+            const [position] = matrix.getPositionsBasedOnDirection(this.X, this.Y, directions).slice(-1);
 
             if (position) {
                 moves.push(position);

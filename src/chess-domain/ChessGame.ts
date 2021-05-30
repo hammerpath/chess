@@ -1,21 +1,25 @@
 import { Guid } from "guid-typescript";
-import ChessBoard from "./ChessBoard";
+import { IMatrix } from "../utils/Matrix";
+import ChessBoard, { IChessBoard } from "./ChessBoard";
 import IChessPiece from "./ChessPieces/IChessPiece";
+import Position from "./Position";
 
 export default class ChessGame {
     get Id(): Guid {
         return this.id;
     }
 
-    get ChessBoard(): ChessBoard {
-        return this.chessBoard;
-    }
-
     get ChessPieces(): Array<IChessPiece> {
         return this.chessPieces;
     }
 
-    public GetMovement(chessPieceId: Guid) : Array<Array<number>>{
+    get ChessBoard() : IChessBoard{
+        return this.chessBoard;
+    }
+
+    private chessBoard : IChessBoard;
+
+    public GetMovement(chessPieceId: Guid) : Array<Position>{
         const chessPiece = this.ChessPieces.find(chessPiece => chessPiece.Id === chessPieceId);
 
         if(!chessPiece){
@@ -23,11 +27,11 @@ export default class ChessGame {
         }
 
         //TODO filter out illegal moves
-        return chessPiece.GetMoves(this.ChessBoard.Width, this.chessBoard.Depth);
+        return chessPiece.GetMoves(this.matrix);
     }
 
-    constructor(private id: Guid, private chessBoard: ChessBoard, private chessPieces: Array<IChessPiece>) {
-
+    constructor(private id: Guid, private matrix: IMatrix, private chessPieces: Array<IChessPiece>) {
+        this.chessBoard = new ChessBoard(Guid.create(), matrix);
     }
 
 }

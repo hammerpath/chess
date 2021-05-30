@@ -8,11 +8,11 @@ export default class Rook implements IChessPiece {
         return this.id;
     }
 
-    get CurrentDepth(): number {
+    get Y(): number {
         return this.currentDepth;
     }
 
-    get CurrentWidth(): number {
+    get X(): number {
         return this.currentWidth;
     }
 
@@ -21,7 +21,7 @@ export default class Rook implements IChessPiece {
     }
 
     GetMoves(matrix : IMatrix): Array<Position> {
-        return matrix.getStraightLinesFromPoint(this.CurrentWidth, this.CurrentDepth);
+        return matrix.getStraightLinesFromPoint(this.X, this.Y);
     }
 
     constructor(

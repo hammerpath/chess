@@ -8,11 +8,11 @@ export default class Bishop implements IChessPiece {
         return this.id;
     }
 
-    get CurrentDepth(): number {
+    get Y(): number {
         return this.currentDepth;
     }
 
-    get CurrentWidth(): number {
+    get X(): number {
         return this.currentWidth;
     }
 
@@ -21,7 +21,7 @@ export default class Bishop implements IChessPiece {
     }
 
     GetMoves(matrix: IMatrix): Array<Position> {
-        return matrix.getDiagonalLinesFromPoint(this.CurrentWidth, this.CurrentDepth);
+        return matrix.getDiagonalLinesFromPoint(this.X, this.Y);
     }
 
     constructor(
