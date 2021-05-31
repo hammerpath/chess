@@ -29,8 +29,12 @@ export default class Pawn implements IPawn {
         return this.color;
     }
 
+    GetCatchMoves(matrix: IMatrix): Array<Position> {
+        return this.GetMoves(matrix).filter(move => move.X !== this.X);
+    }
+
     GetMoves(matrix: IMatrix): Array<Position> {
-        switch (this.color) {
+        switch (this.Color) {
             case ChessPieceColor.White:
                 if (this.StartY === this.Y) {
                     return matrix.getPositions(this.X, this.Y, Direction.Up, 2)
