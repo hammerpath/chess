@@ -1,3 +1,4 @@
+import { useDebugValue } from "react";
 import Position from "../chess-domain/Position";
 
 export class Matrix implements IMatrix {
@@ -33,7 +34,7 @@ export class Matrix implements IMatrix {
         directions.every(direction => {
             const [item] = this.getPositions(currentX, currentY, direction, 1).slice(-1);
 
-            if(!item){
+            if (!item) {
                 coordinates = new Array<Position>();
                 return false;
             }
@@ -49,6 +50,102 @@ export class Matrix implements IMatrix {
         return coordinates;
     }
 
+    public getPositionsUntilConflicts(currentPosition: Position, positions: Array<Position>, conflicts: Array<Position>): Array<Position> {
+        return this.deepSplicePositions(currentPosition, positions, conflicts, false);
+    }
+
+    public getPositionsIncludingConflicts(currentPosition: Position, positions: Array<Position>, conflicts: Array<Position>): Array<Position> {
+        return this.deepSplicePositions(currentPosition, positions, conflicts, true);
+    }
+
+    private deepSplicePositions(currentPosition: Position, positions: Array<Position>, splicePositions: Array<Position>, includeSplicedPosition: boolean) {
+        let positionsCopy = [...positions];
+
+        const matches = this.getMatches(positions, splicePositions);
+
+        matches.forEach(match => {
+            const direction = this.getDirection(currentPosition.X, currentPosition.Y, match.X, match.Y);
+
+            //removes the matched position
+            if (!includeSplicedPosition) {
+                const index = positionsCopy.findIndex(p => p.X === match.X && p.Y === match.Y);
+
+                if (index > -1) {
+                    positionsCopy.splice(index, 1);
+                }
+            }
+
+            const positionsToRemove = this.getPositions(match.X, match.Y, direction);
+
+            positionsToRemove.forEach(pos => {
+                const index = positionsCopy.findIndex(p => p.X === pos.X && p.Y === pos.Y);
+
+                if (index > -1) {
+                    positionsCopy.splice(index, 1);
+                }
+            });
+        });
+
+        return positionsCopy;
+    }
+
+    private getMatches(positions: Array<Position>, matchingPositions: Array<Position>): Array<Position> {
+        return positions.filter(position =>
+            matchingPositions.some(conflict =>
+                conflict.X === position.X
+                && conflict.Y === position.Y));
+    }
+
+    private getDirection(startX: number, startY: number, x: number, y: number): Direction {
+        const xValue = x - startX;
+        const yValue = y - startY;
+
+        if (xValue === 0 && yValue === 0) {
+            throw new Error('Conflicts with start position');
+        }
+
+        //#region straight lines
+
+        if (xValue > 0 && yValue === 0) {
+            return Direction.Right;
+        }
+
+        if (xValue < 0 && yValue === 0) {
+            return Direction.Left;
+        }
+
+        if (xValue === 0 && yValue > 0) {
+            return Direction.Up;
+        }
+
+        if (xValue === 0 && yValue < 0) {
+            return Direction.Down;
+        }
+
+        //#endregion
+
+        //#region diagonal lines
+
+        if (xValue > 0 && yValue > 0 && Math.abs(xValue) === Math.abs(yValue)) {
+            return Direction.UpRight;
+        }
+
+        if (xValue > 0 && yValue < 0 && Math.abs(xValue) === Math.abs(yValue)) {
+            return Direction.DownRight;
+        }
+
+        if (xValue < 0 && yValue < 0 && Math.abs(xValue) === Math.abs(yValue)) {
+            return Direction.DownLeft;
+        }
+
+        if (xValue < 0 && yValue > 0 && Math.abs(xValue) === Math.abs(yValue)) {
+            return Direction.UpLeft;
+        }
+
+        //#endregion
+
+        throw new Error('Only supports straight and diagonal moves');
+    }
 
     public getPositions(x: number, y: number, direction: Direction, count?: number): Array<Position> {
         let coordinates = Array<Position>();
@@ -132,6 +229,9 @@ export interface IMatrix {
     getDiagonalLinesFromPoint(x: number, y: number, count: number): Array<Position>;
     getPositions(x: number, y: number, direction: Direction, count?: number): Array<Position>;
     getPositions(x: number, y: number, direction: Direction): Array<Position>;
+
+    getPositionsUntilConflicts(currentPosition: Position, positions: Array<Position>, conflicts: Array<Position>): Array<Position>;
+    getPositionsIncludingConflicts(currentPosition: Position, positions: Array<Position>, conflicts: Array<Position>): Array<Position>;
 }
 
 export enum Direction {

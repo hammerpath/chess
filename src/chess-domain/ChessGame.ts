@@ -31,20 +31,26 @@ export default class ChessGame {
 
         const moves = chessPiece.GetMoves(this.matrix);
 
-        return moves.filter(move =>
-            //filter out pieces with the same color that has the same position as a potential move
-            this.excludeMovesWithSameColor(move, chessPiece)
+        const slicedMoves = this.sliceImpossibleMoves(moves, chessPiece, this.matrix);
+
+        return slicedMoves.filter(move =>
             //filter out diagonal moves for pawn if no opposite colors are at diagonal places
-            && this.excludeCatchMovesForPawn(move, chessPiece, this.matrix));
+            this.excludeCatchMovesForPawn(move, chessPiece, this.matrix));
     }
 
-    private excludeMovesWithSameColor(position: Position, chessPiece: IChessPiece): boolean {
-        const test = !this.ChessPieces.some(cp =>
-            cp.Color === chessPiece.Color
-            && position.X === cp.X
-            && position.Y === cp.Y);
+    private sliceImpossibleMoves(positions: Array<Position>, chessPiece: IChessPiece, matrix: IMatrix): Array<Position> {
 
-        return test;
+        const sameColorChessPieces = this.chessPieces.filter(cp =>
+            !cp.Id.equals(chessPiece.Id)
+            && cp.Color === chessPiece.Color)
+            .map(cp => new Position(cp.X, cp.Y));
+
+        const opposingColorChessPieces = this.chessPieces.filter(cp =>
+            cp.Color !== chessPiece.Color)
+            .map(cp => new Position(cp.X, cp.Y));
+
+        return matrix.getPositionsUntilConflicts(new Position(chessPiece.X, chessPiece.Y), positions, sameColorChessPieces)
+            .filter((n, i) => matrix.getPositionsIncludingConflicts(new Position(chessPiece.X, chessPiece.Y), positions, opposingColorChessPieces).indexOf(n) === i);
     }
 
     private excludeCatchMovesForPawn(position: Position, chessPiece: IChessPiece, matrix: IMatrix): boolean {
@@ -57,12 +63,12 @@ export default class ChessGame {
                 return true;
             }
 
-            const test = this.ChessPieces.some(
-                cp => cp.X === position.X 
-                && cp.Y === position.Y 
-                && cp.Color !== chessPiece.Color);
+            const opposingColorInCatchRange = this.ChessPieces.some(
+                cp => cp.X === position.X
+                    && cp.Y === position.Y
+                    && cp.Color !== chessPiece.Color);
 
-            return test;
+            return opposingColorInCatchRange;
         }
 
         return true;
